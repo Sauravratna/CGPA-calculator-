@@ -1,270 +1,364 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NU Physics CGPA & GPA Calculator</title>
-    <!-- Tailwind CSS for High Quality UI -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NU Physics CGPA Suite - Ultra Modern Web App</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body class="bg-slate-900 text-slate-100 min-h-screen py-8 px-4">
-
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <header class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-2">NU Physics CGPA Calculator</h1>
-            <p class="text-slate-400">Calculate your Year-wise GPA and Overall CGPA accurately.</p>
-        </header>
-
-        <!-- Navigation Tabs -->
-        <div class="flex flex-wrap justify-center gap-2 mb-8 bg-slate-800 p-2 rounded-xl shadow-lg border border-slate-700">
-            <button onclick="switchTab('year1')" id="btn-year1" class="tab-btn px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 bg-blue-600 text-white shadow-md">1st Year</button>
-            <button onclick="switchTab('year2')" id="btn-year2" class="tab-btn px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 text-slate-400 hover:text-white">2nd Year</button>
-            <button onclick="switchTab('year3')" id="btn-year3" class="tab-btn px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 text-slate-400 hover:text-white">3rd Year</button>
-            <button onclick="switchTab('year4')" id="btn-year4" class="tab-btn px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 text-slate-400 hover:text-white">4th Year</button>
-            <button onclick="switchTab('summary')" id="btn-summary" class="tab-btn px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 text-slate-400 hover:text-white bg-indigo-900/50">Summary & CGPA</button>
-        </div>
-
-        <!-- Calculator Container -->
-        <div class="bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-slate-700 p-6 md:p-8">
-            
-            <!-- YEAR 1 -->
-            <div id="tab-year1" class="space-y-6 year-content">
-                <h2 class="text-2xl font-bold text-blue-400 border-b border-slate-700 pb-3">1st Year Courses</h2>
-                <div id="container-year1" class="space-y-4"></div>
-                <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-700">
-                    <span class="text-lg font-medium text-slate-300">1st Year GPA:</span>
-                    <span id="gpa-year1" class="text-2xl font-bold text-emerald-400">0.00</span>
-                </div>
-            </div>
-
-            <!-- YEAR 2 -->
-            <div id="tab-year2" class="space-y-6 year-content hidden">
-                <h2 class="text-2xl font-bold text-blue-400 border-b border-slate-700 pb-3">2nd Year Courses</h2>
-                <div id="container-year2" class="space-y-4"></div>
-                <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-700">
-                    <span class="text-lg font-medium text-slate-300">2nd Year GPA:</span>
-                    <span id="gpa-year2" class="text-2xl font-bold text-emerald-400">0.00</span>
-                </div>
-            </div>
-
-            <!-- YEAR 3 -->
-            <div id="tab-year3" class="space-y-6 year-content hidden">
-                <h2 class="text-2xl font-bold text-blue-400 border-b border-slate-700 pb-3">3rd Year Courses</h2>
-                <div id="container-year3" class="space-y-4"></div>
-                <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-700">
-                    <span class="text-lg font-medium text-slate-300">3rd Year GPA:</span>
-                    <span id="gpa-year3" class="text-2xl font-bold text-emerald-400">0.00</span>
-                </div>
-            </div>
-
-            <!-- YEAR 4 -->
-            <div id="tab-year4" class="space-y-6 year-content hidden">
-                <h2 class="text-2xl font-bold text-blue-400 border-b border-slate-700 pb-3">4th Year Courses</h2>
-                <div id="container-year4" class="space-y-4"></div>
-                <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-700">
-                    <span class="text-lg font-medium text-slate-300">4th Year GPA:</span>
-                    <span id="gpa-year4" class="text-2xl font-bold text-emerald-400">0.00</span>
-                </div>
-            </div>
-
-            <!-- SUMMARY TAB -->
-            <div id="tab-summary" class="space-y-6 year-content hidden">
-                <h2 class="text-2xl font-bold text-indigo-400 border-b border-slate-700 pb-3">Overall CGPA Summary</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
-                        <span class="text-slate-300">1st Year GPA:</span>
-                        <span id="summary-gpa1" class="text-xl font-semibold text-blue-400">0.00</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
-                        <span class="text-slate-300">2nd Year GPA:</span>
-                        <span id="summary-gpa2" class="text-xl font-semibold text-blue-400">0.00</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
-                        <span class="text-slate-300">3rd Year GPA:</span>
-                        <span id="summary-gpa3" class="text-xl font-semibold text-blue-400">0.00</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
-                        <span class="text-slate-300">4th Year GPA:</span>
-                        <span id="summary-gpa4" class="text-xl font-semibold text-blue-400">0.00</span>
-                    </div>
-                </div>
-                <div class="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-indigo-500/30 p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-indigo-200">Final Cumulative CGPA</h3>
-                        <p class="text-sm text-slate-400">Calculated based on total weighted grade points and credits.</p>
-                    </div>
-                    <div id="final-cgpa" class="text-4xl font-extrabold text-emerald-400">0.00</div>
-                </div>
-            </div>
-
-            <!-- Global Action Button -->
-            <div class="mt-8 pt-6 border-t border-slate-700 flex justify-end">
-                <button onclick="calculateAll()" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
-                    Calculate All & Update CGPA
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        const gradePoints = {
-            "A+": 4.00, "A": 3.75, "A-": 3.50,
-            "B+": 3.25, "B": 3.00, "B-": 2.75,
-            "C+": 2.50, "C": 2.25, "D": 2.00, "F": 0.00
-        };
-
-        const courseData = {
-            year1: [
-                { name: "History of the Emergence of Independent Bangladesh", credit: 4 },
-                { name: "Mechanics", credit: 3 },
-                { name: "Properties of Matter, Waves & Oscillations", credit: 3 },
-                { name: "Heat, Thermodynamics and Radiation", credit: 3 },
-                { name: "Physics Practical-I", credit: 3 },
-                { name: "Fundamentals of Mathematics", credit: 4 },
-                { name: "Calculus-I", credit: 2 },
-                { name: "Chemistry-I or Introduction to Statistics", credit: 4 },
-                { name: "Chemistry-I Practical or Statistics Practical-I", credit: 2 }
-            ],
-            year2: [
-                { name: "Electricity & Magnetism", credit: 4 },
-                { name: "Geometrical & Physical Optics", credit: 4 },
-                { name: "Classical Mechanics", credit: 4 },
-                { name: "Physics Practical-II", credit: 4 },
-                { name: "General Chemistry-II or Methods of Statistics", credit: 4 },
-                { name: "Environmental Chemistry or Statistics Practical - II", credit: 2 },
-                { name: "Calculus-II", credit: 4 },
-                { name: "Math Lab (Practical)", credit: 2 }
-            ],
-            year3: [
-                { name: "Atomic & Molecular Physics", credit: 4 },
-                { name: "Quantum Mechanics-I", credit: 4 },
-                { name: "Computer Fundamentals and Numerical Analysis", credit: 4 },
-                { name: "Electronics-I", credit: 4 },
-                { name: "Nuclear Physics-I", credit: 4 },
-                { name: "Solid State Physics-I", credit: 4 },
-                { name: "Mathematical Physics", credit: 4 },
-                { name: "Physics Practical-III", credit: 4 }
-            ],
-            year4: [
-                { name: "Nuclear Physics-II", credit: 4 },
-                { name: "Solid State Physics-II", credit: 4 },
-                { name: "Quantum Mechanics-II", credit: 4 },
-                { name: "Electronics-II", credit: 4 },
-                { name: "Classical Electrodynamics", credit: 4 },
-                { name: "Statistical Mechanics", credit: 4 },
-                { name: "Computer Application and Programming", credit: 4 },
-                { name: "Theory of Relativity and Cosmology", credit: 4 },
-                { name: "Physics Practical-IV", credit: 4 },
-                { name: "Viva-Voce", credit: 4 }
-            ]
-        };
-
-        function initApp() {
-            ['year1', 'year2', 'year3', 'year4'].forEach(year => {
-                const container = document.getElementById(`container-${year}`);
-                container.innerHTML = '';
-                courseData[year].forEach((course, index) => {
-                    container.innerHTML += `
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center bg-slate-900/40 p-3 rounded-xl border border-slate-700/50">
-                            <div class="md:col-span-8 font-medium text-slate-200">${course.name} <span class="text-xs text-slate-400 block md:inline">(${course.credit} Credits)</span></div>
-                            <div class="md:col-span-4 flex items-center justify-end">
-                                <select id="${year}-grade-${index}" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500">
-                                    <option value="">Select Grade</option>
-                                    <option value="4.00">A+ (4.00)</option>
-                                    <option value="3.75">A (3.75)</option>
-                                    <option value="3.50">A- (3.50)</option>
-                                    <option value="3.25">B+ (3.25)</option>
-                                    <option value="3.00">B (3.00)</option>
-                                    <option value="2.75">B- (2.75)</option>
-                                    <option value="2.50">C+ (2.50)</option>
-                                    <option value="2.25">C (2.25)</option>
-                                    <option value="2.00">D (2.00)</option>
-                                    <option value="0.00">F (0.00)</option>
-                                </select>
-                            </div>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.year-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => {
-                el.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'bg-indigo-900/50');
-                el.classList.add('text-slate-400');
-            });
-
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            const activeBtn = document.getElementById(`btn-${tabId}`);
-            activeBtn.classList.remove('text-slate-400');
-            if(tabId === 'summary') {
-                activeBtn.classList.add('bg-indigo-900/50', 'text-white', 'shadow-md');
-            } else {
-                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        neon: {
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite alternate',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { opacity: '0.4', filter: 'blur(20px)' },
+                            '100%': { opacity: '0.8', filter: 'blur(35px)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
             }
         }
-
-        function calculateYearGPA(yearKey) {
-            let totalWeightedPoints = 0;
-            let totalCredits = 0;
-            const courses = courseData[yearKey];
-
-            courses.forEach((course, index) => {
-                const selectElement = document.getElementById(`${yearKey}-grade-${index}`);
-                const val = selectElement.value;
-                if (val !== "") {
-                    const gp = parseFloat(val);
-                    totalWeightedPoints += gp * course.credit;
-                    totalCredits += course.credit;
-                }
-            });
-
-            if (totalCredits === 0) return 0.00;
-            return (totalWeightedPoints / totalCredits).toFixed(2);
-        }
-
-        function calculateAll() {
-            let gpa1 = parseFloat(calculateYearGPA('year1'));
-            let gpa2 = parseFloat(calculateYearGPA('year2'));
-            let gpa3 = parseFloat(calculateYearGPA('year3'));
-            let gpa4 = parseFloat(calculateYearGPA('year4'));
-
-            document.getElementById('gpa-year1').innerText = gpa1.toFixed(2);
-            document.getElementById('gpa-year2').innerText = gpa2.toFixed(2);
-            document.getElementById('gpa-year3').innerText = gpa3.toFixed(2);
-            document.getElementById('gpa-year4').innerText = gpa4.toFixed(2);
-
-            document.getElementById('summary-gpa1').innerText = gpa1.toFixed(2);
-            document.getElementById('summary-gpa2').innerText = gpa2.toFixed(2);
-            document.getElementById('summary-gpa3').innerText = gpa3.toFixed(2);
-            document.getElementById('summary-gpa4').innerText = gpa4.toFixed(2);
-
-            // Calculate overall CGPA based on all weighted courses
-            let grandTotalPoints = 0;
-            let grandTotalCredits = 0;
-
-            ['year1', 'year2', 'year3', 'year4'].forEach(yearKey => {
-                courseData[yearKey].forEach((course, index) => {
-                    const val = document.getElementById(`${yearKey}-grade-${index}`).value;
-                    if (val !== "") {
-                        grandTotalPoints += parseFloat(val) * course.credit;
-                        grandTotalCredits += course.credit;
-                    }
-                });
-            });
-
-            const finalCGPA = grandTotalCredits > 0 ? (grandTotalPoints / grandTotalCredits).toFixed(2) : "0.00";
-            document.getElementById('final-cgpa').innerText = finalCGPA;
-        }
-
-        window.onload = initApp;
     </script>
-</body>
-  </html>
-                      
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.6);
+        }
+
+        /* Custom Radio & Option Styles */
+        .grade-chip {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .grade-chip.active {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+            border-color: transparent;
+        }
+
+        /* Gauge Arc Animation */
+        .gauge-circle {
+            transition: stroke-dashoffset 0.8s ease-in-out, stroke 0.5s ease;
+        }
+
+        /* Printable Sheet Styling */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .glass-panel, .glass-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                color: black !important;
+                backdrop-filter: none !important;
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-24 md:pb-12 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Ambient Glow Background Canvas -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-600/30 rounded-full animate-pulse-glow"></div>
+        <div class="absolute top-1/3 -right-40 w-96 h-96 bg-neon-cyan/20 rounded-full animate-pulse-glow" style="animation-delay: 1.5s;"></div>
+        <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-neon-purple/20 rounded-full animate-pulse-glow" style="animation-delay: 3s;"></div>
+    </div>
+
+    <!-- App Main Container -->
+    <div id="app" class="relative z-10 max-w-5xl mx-auto px-4 pt-4 sm:pt-6">
+
+        <!-- Top Header Navigation -->
+        <header class="glass-panel rounded-2xl p-4 sm:p-5 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl">
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-neon-cyan p-0.5 shadow-lg shadow-brand-500/20">
+                        <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid fa-atom text-2xl text-neon-cyan animate-spin" style="animation-duration: 12s;"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="font-extrabold text-xl tracking-tight text-white">NU Physics CGPA</h1>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30">B.Sc Hon.</span>
+                        </div>
+                        <p class="text-xs text-slate-400">National University Bangladesh • Physics Dept.</p>
+                    </div>
+                </div>
+
+                <!-- Mobile Quick Sync Indicator -->
+                <div class="sm:hidden text-xs text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Auto-Saved
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 border-slate-800 pt-3 sm:pt-0 no-print">
+                <button onclick="fillSampleData()" title="Fill Demo Marks" class="glass-pill hover:bg-white/10 text-xs font-semibold px-3 py-2 rounded-xl transition flex items-center gap-1.5 text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-wand-magic-sparkles text-neon-pink"></i>
+                    <span>Demo Data</span>
+                </button>
+                <button onclick="clearAllData()" title="Reset All Grades" class="glass-pill hover:bg-rose-500/20 text-xs font-semibold px-3 py-2 rounded-xl transition flex items-center gap-1.5 text-slate-300 hover:text-rose-300">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Reset</span>
+                </button>
+                <button onclick="triggerExportModal()" class="bg-gradient-to-r from-brand-600 to-neon-cyan hover:opacity-95 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-brand-500/25 flex items-center gap-2">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    <span>Export Card</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard View Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+
+            <!-- Left / Top Dashboard Stats Column -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Main Animated Gauge Card -->
+                <div class="glass-panel rounded-3xl p-6 text-center relative overflow-hidden shadow-xl">
+                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Cumulative Grade Point Average</div>
+                    
+                    <!-- SVG Circular Gauge -->
+                    <div class="relative w-48 h-48 mx-auto my-2 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+                            <!-- Background Track -->
+                            <circle cx="60" cy="60" r="50" class="stroke-slate-800" stroke-width="8" fill="transparent" />
+                            <!-- Progress Ring -->
+                            <circle id="cgpa-gauge-circle" cx="60" cy="60" r="50" 
+                                    class="gauge-circle stroke-brand-500" 
+                                    stroke-width="9" 
+                                    stroke-linecap="round" 
+                                    fill="transparent" 
+                                    stroke-dasharray="314.159" 
+                                    stroke-dashoffset="314.159" />
+                        </svg>
+
+                        <!-- Centered Score Display -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <span id="cgpa-score" class="text-4xl font-extrabold text-white tracking-tight">0.00</span>
+                            <span id="cgpa-scale" class="text-xs font-medium text-slate-400 mt-0.5">Out of 4.00</span>
+                            <span id="cgpa-letter-badge" class="mt-2 text-[11px] font-bold px-3 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Not Evaluated</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Metrics Row -->
+                    <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-800/80">
+                        <div class="bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[11px] text-slate-400 block">Earned Credits</span>
+                            <span id="total-earned-credits" class="text-base font-bold text-neon-cyan">0 / 128</span>
+                        </div>
+                        <div class="bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[11px] text-slate-400 block">Total Courses</span>
+                            <span id="total-completed-courses" class="text-base font-bold text-neon-purple">0 / 35</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year-Wise GPA Quick Cards -->
+                <div class="glass-panel rounded-2xl p-5 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
+                        <span>Year-Wise GPA Breakdown</span>
+                        <i class="fa-solid fa-chart-line text-brand-400"></i>
+                    </h3>
+                    <div class="space-y-2.5" id="year-summary-list">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Target CGPA Predictor Widget -->
+                <div class="glass-panel rounded-2xl p-5 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
+                        <span>Target CGPA Predictor</span>
+                        <i class="fa-solid fa-bullseye text-neon-pink"></i>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <label for="target-cgpa-input" class="text-xs text-slate-300">Desired Final CGPA:</label>
+                            <input type="number" id="target-cgpa-input" min="2.00" max="4.00" step="0.05" value="3.50" 
+                                   onchange="calculateTargetPrediction()" 
+                                   class="w-20 bg-slate-900 border border-slate-700 text-center text-sm font-bold text-neon-cyan rounded-lg py-1 px-2 focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div id="target-prediction-result" class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl border border-slate-800 leading-relaxed">
+                            Fill in your grades to see the required GPA for remaining semesters.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right / Interactive Academic Content Column -->
+            <div class="lg:col-span-8">
+                
+                <!-- Desktop & Tablet Tab Navigation Bar -->
+                <div class="glass-panel rounded-2xl p-1.5 mb-6 hidden md:flex items-center gap-1 shadow-xl no-print">
+                    <button onclick="setActiveTab('year1')" id="tab-btn-year1" class="tab-btn flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                        <span>1st Year</span>
+                        <span class="text-[10px] px-1.5 py-0.2 bg-slate-800 rounded-md font-normal text-slate-400">28 Cr</span>
+                    </button>
+                    <button onclick="setActiveTab('year2')" id="tab-btn-year2" class="tab-btn flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                        <span>2nd Year</span>
+                        <span class="text-[10px] px-1.5 py-0.2 bg-slate-800 rounded-md font-normal text-slate-400">28 Cr</span>
+                    </button>
+                    <button onclick="setActiveTab('year3')" id="tab-btn-year3" class="tab-btn flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                        <span>3rd Year</span>
+                        <span class="text-[10px] px-1.5 py-0.2 bg-slate-800 rounded-md font-normal text-slate-400">32 Cr</span>
+                    </button>
+                    <button onclick="setActiveTab('year4')" id="tab-btn-year4" class="tab-btn flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                        <span>4th Year</span>
+                        <span class="text-[10px] px-1.5 py-0.2 bg-slate-800 rounded-md font-normal text-slate-400">40 Cr</span>
+                    </button>
+                    <button onclick="setActiveTab('analytics')" id="tab-btn-analytics" class="tab-btn flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-chart-pie text-brand-400"></i>
+                        <span>Analytics</span>
+                    </button>
+                </div>
+
+                <!-- Academic Course Lists Tab Containers -->
+                <div id="tab-content-container">
+                    
+                    <!-- 1st Year Tab -->
+                    <div id="view-year1" class="tab-view space-y-4">
+                        <div class="flex items-center justify-between bg-brand-900/20 border border-brand-500/20 p-4 rounded-2xl">
+                            <div>
+                                <h2 class="font-bold text-white text-base">B.Sc 1st Year Syllabus</h2>
+                                <p class="text-xs text-slate-400">9 Core Courses • Total 28 Credits</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block">Year GPA</span>
+                                <span id="year1-gpa-badge" class="text-lg font-black text-brand-400">0.00</span>
+                            </div>
+                        </div>
+                        <div id="courses-year1" class="space-y-3"></div>
+                    </div>
+
+                    <!-- 2nd Year Tab -->
+                    <div id="view-year2" class="tab-view space-y-4 hidden">
+                        <div class="flex items-center justify-between bg-brand-900/20 border border-brand-500/20 p-4 rounded-2xl">
+                            <div>
+                                <h2 class="font-bold text-white text-base">B.Sc 2nd Year Syllabus</h2>
+                                <p class="text-xs text-slate-400">8 Core Courses • Total 28 Credits</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block">Year GPA</span>
+                                <span id="year2-gpa-badge" class="text-lg font-black text-brand-400">0.00</span>
+                            </div>
+                        </div>
+                        <div id="courses-year2" class="space-y-3"></div>
+                    </div>
+
+                    <!-- 3rd Year Tab -->
+                    <div id="view-year3" class="tab-view space-y-4 hidden">
+                        <div class="flex items-center justify-between bg-brand-900/20 border border-brand-500/20 p-4 rounded-2xl">
+                            <div>
+                                <h2 class="font-bold text-white text-base">B.Sc 3rd Year Syllabus</h2>
+                                <p class="text-xs text-slate-400">8 Core Courses • Total 32 Credits</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block">Year GPA</span>
+                                <span id="year3-gpa-badge" class="text-lg font-black text-brand-400">0.00</span>
+                            </div>
+                        </div>
+                        <div id="courses-year3" class="space-y-3"></div>
+                    </div>
+
+                    <!-- 4th Year Tab -->
+                    <div id="view-year4" class="tab-view space-y-4 hidden">
+                        <div class="flex items-center justify-between bg-brand-900/20 border border-brand-500/20 p-4 rounded-2xl">
+                            <div>
+                                <h2 class="font-bold text-white text-base">B.Sc 4th Year Syllabus</h2>
+                                <p class="text-xs text-slate-400">10 Core Courses • Total 40 Credits</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block">Year GPA</span>
+                        
